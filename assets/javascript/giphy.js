@@ -12,13 +12,13 @@ createButtons();
 
 function searchedGif(){
 	$.ajax({
-		url: searchUrl + searchTerm + key,
+		url: searchUrl + searchTerm + "+nes" + key,
 		method: "GET"
 	}).done(function(response){
 		console.log(response);
 		console.log(response.data[0].images.original.url);
 		for (i=0; i<response.data.length; i++) {
-			$(".col-xs-12").append($("<div> <img src='"+response.data[i].images.original.url+"'> </div>"))
+			$(".col-xs-12").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif'> </div>"))
 		}
 		
 

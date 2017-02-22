@@ -1,0 +1,10 @@
+.gifContainer {
+	display: inline-block;
+}
+
+
+.displayedGif {
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+}
