@@ -114,27 +114,29 @@ $(document).on("click",".gridBlock", function(){
 	if ($(this).children().eq(0).attr("src") == $(this).children().eq(0).attr("data-moving")){
 		var stillUrl = $(this).children().eq(0).attr("data-still");
 		$(this).children().eq(0).attr("src", stillUrl);
-		var cutHere = filled.indexOf("01");
-		filled.splice(cutHere, 1);
-		console.log(filled)
+		
+
 	} else {
 		var movingUrl = $(this).children().eq(0).attr("data-moving");
 		$(this).children().eq(0).attr("src", movingUrl);
 		filled.push("01", "10", "11");
 		console.log(filled);
-		$(".gridContainer").append($(this).css({
+		$(".gridContainer").clone($(this)).css({
 			"position": "absolute",
 			"top":"0%",
 			"left":"0%",
 			"height":"200px",
 			"width":"200px"
-		}))
+		}).addClass("expandedDup")
 		//console.log(filled.indexOf("13"));
 		searchedGif();
 
 	}
 })
 
+$(document).on("click", ".expandedDup", function(){
+	$(this).remove();
+})
 
 $(document).on("mouseenter", ".gifContainer", function(){
 	$(this).css("box-shadow", "4px 4px 4px 4px");
