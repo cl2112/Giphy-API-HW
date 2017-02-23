@@ -12,7 +12,7 @@ createButtons();
 
 function searchedGif(){
 	$.ajax({
-		url: searchUrl + searchTerm + "+nes" + key,
+		url: searchUrl + searchTerm + key,
 		method: "GET"
 	}).done(function(response){
 		console.log(response);
@@ -26,11 +26,9 @@ function searchedGif(){
 	})
 }
 
-$("#random").on("click", function(){
-	searchedGif();
-})
 
 function createButtons(){
+	$(".buttonCol").empty();
 	for (i=0; i<topics.length;i++){
 		var btn = $("<button id='"+topics[i]+"'>");
 		var btnClass = btn.addClass("btn btn-primary topic");
@@ -39,11 +37,12 @@ function createButtons(){
 	}
 }
 
-$(".topic").on("click",function(){
+$(document).on("click",".topic",function(){
 	console.log(this);
 	var buttonId = $(this).attr("id");
 	console.log(buttonId);
 	searchTerm = buttonId;
+	$(".gifCol").empty();
 	searchedGif();
 })
 
@@ -62,13 +61,23 @@ $(document).on("click",".gifContainer", function(){
 		var movingUrl = $(this).children().eq(0).attr("data-moving");
 		$(this).children().eq(0).attr("src", movingUrl);
 		$(this).css({
-			"height":"200px",
-			"width" :"200px"
+			"height":"300px",
+			"width" :"300px",
+			"z-index":"-1"
 		})
 	}
 })
 
-
+$("#add-topic").on("click", function(event) {
+    event.preventDefault();
+    var topic = $("#topic-input").val().trim();
+    if (topic == ""){
+       	console.log("field is blank")
+    } else {
+      	topics.push(topic);
+    	createButtons();
+    }
+});
 
 
 
