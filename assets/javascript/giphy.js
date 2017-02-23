@@ -4,7 +4,7 @@ var topics = ["megaman","castlevania","contra","strider"]
 
 
 var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
-var key = "&limit=48&api_key=dc6zaTOxFJmzC";
+var key = "&limit=40&api_key=dc6zaTOxFJmzC";
 var searchTerm = "random";
 
 createButtons();
@@ -21,10 +21,10 @@ function searchedGif(){
 		var colNumber = 0;
 
 		for (i=0; i<response.data.length; i++) {
-			console.log($(".gridCol").children().eq(rowNumber).children().eq(colNumber))
-			$(".gridCol").children().eq(rowNumber).children().eq(colNumber).append($("<div class='gifContainerGrid'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGifGrid' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
+			console.log($(".gridContainer").children().eq(rowNumber).children().eq(colNumber))
+			$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).append($("<img src='"+response.data[i].images.original_still.url+"' class='gridBlockGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p class='normalFont'>"+response.data[i].rating+"</p>"))
 			$(".gifCol").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
-			if (colNumber == 11){
+			if (colNumber == 9){
 				colNumber = 0;
 				rowNumber++;
 			} else {
@@ -90,6 +90,25 @@ $("#add-topic").on("click", function(event) {
 });
 
 
+$(document).on("click",".gridBlock", function(){
+	console.log(this);
+	console.log($(this).children().eq(0).attr("src"));
+	if ($(this).children().eq(0).attr("src") == $(this).children().eq(0).attr("data-moving")){
+		var stillUrl = $(this).children().eq(0).attr("data-still");
+		$(this).children().eq(0).attr("src", stillUrl);
+		$(this).css({
+			"height":"100px",
+			"width" :"100px"
+		})
+	} else {
+		var movingUrl = $(this).children().eq(0).attr("data-moving");
+		$(this).children().eq(0).attr("src", movingUrl);
+		$(this).css({
+			"height":"200px",
+			"width" :"200px"
+		})
+	}
+})
 
 
 $(document).on("mouseenter", ".gifContainer", function(){
