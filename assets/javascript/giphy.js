@@ -7,6 +7,10 @@ var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
 var key = "&limit=40&api_key=dc6zaTOxFJmzC";
 var searchTerm = "random";
 
+var filled = []
+
+
+
 createButtons();
 
 
@@ -15,24 +19,37 @@ function searchedGif(){
 		url: searchUrl + searchTerm + key,
 		method: "GET"
 	}).done(function(response){
-		console.log(response);
-		console.log(response.data[0].images.original.url);
+		//console.log(response);
+		//console.log(response.data[0].images.original.url);
 		var rowNumber = 0;
 		var colNumber = 0;
 
 		for (i=0; i<response.data.length; i++) {
-			console.log($(".gridContainer").children().eq(rowNumber).children().eq(colNumber))
-			$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).append($("<img src='"+response.data[i].images.original_still.url+"' class='gridBlockGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p class='normalFont'>"+response.data[i].rating+"</p>"))
-			$(".gifCol").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
-			if (colNumber == 9){
-				colNumber = 0;
-				rowNumber++;
+			//console.log(filled.indexOf(""+rowNumber+colNumber))
+			if (filled.indexOf(""+rowNumber + colNumber) != -1){
+				if (colNumber == 9){
+					console.log(""+rowNumber+colNumber+"-skipped and changed row")
+					colNumber = 0;
+					rowNumber++;
+				} else {
+					console.log(""+rowNumber + colNumber+"-skipped filled");
+					$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).empty();
+					colNumber++;
+					i--;
+				}
 			} else {
-				colNumber++;
+				//console.log($(".gridContainer").children().eq(rowNumber).children().eq(colNumber))
+				$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).empty();
+				$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).append($("<img src='"+response.data[i].images.original_still.url+"' class='gridBlockGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p class='normalFont'>"+response.data[i].rating+"</p>"))
+				//$(".gifCol").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
+				if (colNumber == 9){
+					colNumber = 0;
+					rowNumber++;
+				} else {
+					colNumber++;
+				}
 			}
 		}
-		
-
 	})
 }
 
@@ -103,10 +120,11 @@ $(document).on("click",".gridBlock", function(){
 	} else {
 		var movingUrl = $(this).children().eq(0).attr("data-moving");
 		$(this).children().eq(0).attr("src", movingUrl);
-		$(this).css({
-			"height":"200px",
-			"width" :"200px"
-		})
+		filled.push("01", "10", "11");
+		console.log(filled);
+		//console.log(filled.indexOf("13"));
+		searchedGif();
+
 	}
 })
 
