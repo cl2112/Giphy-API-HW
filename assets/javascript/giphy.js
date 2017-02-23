@@ -51,8 +51,14 @@ $(".topic").on("click",function(){
 $(document).on("click",".gifContainer", function(){
 	console.log(this);
 	console.log($(this).children().eq(0).attr("src"));
-	var movingUrl = $(this).children().eq(0).attr("data-moving");
-	$(this).children().eq(0).attr("src", movingUrl);
+	if ($(this).children().eq(0).attr("src") == $(this).children().eq(0).attr("data-moving")){
+		var stillUrl = $(this).children().eq(0).attr("data-still");
+		$(this).children().eq(0).attr("src", stillUrl);
+	} else {
+		var movingUrl = $(this).children().eq(0).attr("data-moving");
+		$(this).children().eq(0).attr("src", movingUrl);
+	}
+	
 })
 
 
@@ -65,7 +71,8 @@ $(document).on("mouseenter", ".gifContainer", function(){
 })
 
 $(document).on("mouseleave", ".gifContainer", function(){
-	$(this).css("box-shadow","2px 2px 2px 2px")
+	$(this).css("box-shadow","2px 2px 2px 2px");
+
 })
 
 
