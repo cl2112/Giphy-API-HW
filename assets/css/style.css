@@ -16,6 +16,18 @@
 }
 
 .gifContainerGrid {
-	height: 100%;
+	position: relative;
+	height: 100px;
 	width: 100%;
+	padding: 1%;
+	box-shadow: 2px 2px 2px 2px;
+	margin: 0;
+}
+.displayedGifGrid{
+	position: absolute;
+	height: 60%;
+	width: 100%;
+}
+.noPadding {
+	padding: 0;
 }

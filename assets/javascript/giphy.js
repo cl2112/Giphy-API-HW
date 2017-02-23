@@ -22,7 +22,7 @@ function searchedGif(){
 
 		for (i=0; i<response.data.length; i++) {
 			console.log($(".gridCol").children().eq(rowNumber).children().eq(colNumber))
-			$(".gridCol").children().eq(rowNumber).children().eq(colNumber).append($("<div class='gifContainerGrid'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
+			$(".gridCol").children().eq(rowNumber).children().eq(colNumber).append($("<div class='gifContainerGrid'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGifGrid' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
 			$(".gifCol").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
 			if (colNumber == 11){
 				colNumber = 0;
