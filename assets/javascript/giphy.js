@@ -54,11 +54,18 @@ $(document).on("click",".gifContainer", function(){
 	if ($(this).children().eq(0).attr("src") == $(this).children().eq(0).attr("data-moving")){
 		var stillUrl = $(this).children().eq(0).attr("data-still");
 		$(this).children().eq(0).attr("src", stillUrl);
+		$(this).css({
+			"height":"100px",
+			"width" :"100px"
+		})
 	} else {
 		var movingUrl = $(this).children().eq(0).attr("data-moving");
 		$(this).children().eq(0).attr("src", movingUrl);
+		$(this).css({
+			"height":"200px",
+			"width" :"200px"
+		})
 	}
-	
 })
 
 
