@@ -110,18 +110,25 @@ $("#add-topic").on("click", function(event) {
 $(document).on("click",".gridBlock", function(){
 	console.log(this);
 	console.log($(this).children().eq(0).attr("src"));
+	console.log($(this).children().eq(0).attr("data-still"))
 	if ($(this).children().eq(0).attr("src") == $(this).children().eq(0).attr("data-moving")){
 		var stillUrl = $(this).children().eq(0).attr("data-still");
 		$(this).children().eq(0).attr("src", stillUrl);
-		$(this).css({
-			"height":"100px",
-			"width" :"100px"
-		})
+		var cutHere = filled.indexOf("01");
+		filled.splice(cutHere, 1);
+		console.log(filled)
 	} else {
 		var movingUrl = $(this).children().eq(0).attr("data-moving");
 		$(this).children().eq(0).attr("src", movingUrl);
 		filled.push("01", "10", "11");
 		console.log(filled);
+		$(".gridContainer").append($(this).css({
+			"position": "absolute",
+			"top":"0%",
+			"left":"0%",
+			"height":"200px",
+			"width":"200px"
+		}))
 		//console.log(filled.indexOf("13"));
 		searchedGif();
 
