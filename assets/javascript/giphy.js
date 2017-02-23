@@ -17,8 +17,9 @@ function searchedGif(){
 	}).done(function(response){
 		console.log(response);
 		console.log(response.data[0].images.original.url);
+
 		for (i=0; i<response.data.length; i++) {
-			$(".col-xs-12").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif'> </div>"))
+			$(".gifCol").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
 		}
 		
 
@@ -34,7 +35,7 @@ function createButtons(){
 		var btn = $("<button id='"+topics[i]+"'>");
 		var btnClass = btn.addClass("btn btn-primary topic");
 		var btnFilled = btnClass.text(topics[i]);
-		$(".col-xs-12").append(btnFilled);
+		$(".buttonCol").append(btnFilled);
 	}
 }
 
@@ -44,6 +45,27 @@ $(".topic").on("click",function(){
 	console.log(buttonId);
 	searchTerm = buttonId;
 	searchedGif();
+})
+
+
+$(document).on("click",".gifContainer", function(){
+	console.log(this);
+	console.log($(this).children().eq(0).attr("src"));
+	var movingUrl = $(this).children().eq(0).attr("data-moving");
+	$(this).children().eq(0).attr("src", movingUrl);
+})
+
+
+
+
+
+
+$(document).on("mouseenter", ".gifContainer", function(){
+	$(this).css("box-shadow", "4px 4px 4px 4px");
+})
+
+$(document).on("mouseleave", ".gifContainer", function(){
+	$(this).css("box-shadow","2px 2px 2px 2px")
 })
 
 

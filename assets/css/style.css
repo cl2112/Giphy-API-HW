@@ -1,10 +1,15 @@
 .gifContainer {
 	display: inline-block;
+	padding: 1%;
+	box-shadow: 2px 2px 2px 2px;
+	height: 100px;
+	width: 100px;
+	margin: 8px;
 }
 
 
 .displayedGif {
 	display: inline-block;
-	height: 100px;
-	width: 100px;
+	height: 70%;
+	width: 100%;
 }
