@@ -40,7 +40,7 @@ function searchedGif(){
 			} else {
 				//console.log($(".gridContainer").children().eq(rowNumber).children().eq(colNumber))
 				$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).empty();
-				$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).append($("<img src='"+response.data[i].images.original_still.url+"' class='gridBlockGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p class='normalFont'>"+response.data[i].rating+"</p>"))
+				$(".gridContainer").children().eq(rowNumber).children().eq(colNumber).append($("<img src='"+response.data[i].images.original_still.url+"' class='gridBlockGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"' data-row='"+rowNumber+"' data-col='"+colNumber+"'> <p class='normalFont'>"+response.data[i].rating+"</p>"))
 				//$(".gifCol").append($("<div class='gifContainer'> <img src='"+response.data[i].images.original_still.url+"' class='displayedGif' data-still='"+response.data[i].images.original_still.url+"' data-moving='"+response.data[i].images.original.url+"'> <p>"+response.data[i].rating+"</p> </div>"))
 				if (colNumber == 9){
 					colNumber = 0;
@@ -111,27 +111,32 @@ $(document).on("click",".gridBlock", function(){
 	console.log(this);
 	console.log($(this).children().eq(0).attr("src"));
 	console.log($(this).children().eq(0).attr("data-still"))
-	if ($(this).children().eq(0).attr("src") == $(this).children().eq(0).attr("data-moving")){
-		var stillUrl = $(this).children().eq(0).attr("data-still");
-		$(this).children().eq(0).attr("src", stillUrl);
+//	if ($(this).children().eq(0).attr("src") == $(this).children().eq(0).attr("data-moving")){
+//		var stillUrl = $(this).children().eq(0).attr("data-still");
+//		$(this).children().eq(0).attr("src", stillUrl);
 		
 
-	} else {
+//	} else {
 		var movingUrl = $(this).children().eq(0).attr("data-moving");
 		$(this).children().eq(0).attr("src", movingUrl);
-		filled.push("01", "10", "11");
+		var positionRow = parseInt($(this).children().eq(0).attr("data-row"));
+		var positionCol = parseInt($(this).children().eq(0).attr("data-col"));
+		
+		console.log($(this).children().eq(0).attr("data-row"));
+
+		filled.push(""+positionRow+(positionCol+1),""+(positionRow+1)+positionCol, ""+(positionRow+1)+(positionCol+1))
 		console.log(filled);
-		$(".gridContainer").clone($(this)).css({
+		$(this).clone().css({
 			"position": "absolute",
-			"top":"0%",
-			"left":"0%",
+			"top":""+(positionRow*100)+"px",
+			"left":""+(positionCol*100)+"px",
 			"height":"200px",
 			"width":"200px"
-		}).addClass("expandedDup")
+		}).addClass("expandedDup").appendTo(".gridContainer")
 		//console.log(filled.indexOf("13"));
 		searchedGif();
 
-	}
+//	}
 })
 
 $(document).on("click", ".expandedDup", function(){
