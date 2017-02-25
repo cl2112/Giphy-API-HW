@@ -5,17 +5,18 @@ var topics = ["megaman","castlevania","contra","strider"];
 
 var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
 var key = "&api_key=dc6zaTOxFJmzC";
-var limit = "&limit=40";
+var limit = "&limit=48";
 var searchTerm = "grim";
 
 var returnedData;
 
 var expandedImages = 0;
-var totalImagesReturned = 40;
+var totalImagesReturned = 48;
 var totalClusters;
 var filledClusters = [];
 var attachedImages = [];
 var injector = [];
+var buttonColors = ["btn-primary","btn-success","btn-warning","btn-danger"]
 
 createButtons();
 
@@ -103,7 +104,6 @@ $(document).on("click", ".gridBlock", function(){
 	console.log(injector);
 	expandedImages++;
 	createGrid();
-	fillGrid();
 })
 
 $(document).on("click", ".expandedGif", function(){
@@ -115,7 +115,6 @@ $(document).on("click", ".expandedGif", function(){
  injector.splice(injectorIndex,1);
  expandedImages--;
  createGrid();
- fillGrid();
 })
 
 
@@ -126,8 +125,14 @@ $(document).on("click",".btn",function(){
 
 function createButtons(){
 	$(".buttonContainer").empty();
+	var colorRotation = 0;
 	for (var i = 0; i < topics.length; i++) {
-		$(".buttonContainer").append("<button class='topicButton' data-topic='"+topics[i]+"'>"+topics[i]+"</button>");
+		$(".buttonContainer").append("<button class='topicButton btn "+buttonColors[colorRotation]+"' data-topic='"+topics[i]+"'>"+topics[i]+"</button>");
+		if (colorRotation == 3){
+			colorRotation = 0;
+		} else {
+			colorRotation++;
+		}
 	}
 }
 
@@ -135,6 +140,16 @@ $(document).on("click", ".topicButton", function(){
 	searchTerm = $(this).attr("data-topic");
 	retrieveData();
 })
+
+
+$("#addTopic").on("click", function(event) {
+event.preventDefault();
+var typedInTopic = $("#topicInput").val();
+topics.push(typedInTopic);
+createButtons();
+$("#topicInput").val("");
+ });
+
 
 //end
 })

@@ -1,13 +1,21 @@
+body {
+	background-image: url(../images/api_giphy.gif);
+	background-attachment: fixed;
+	background-size: 100% 100%;
+}
+.whiteBackground{
+	background-color: rgba(255,255,255,.9);
+}
+.greyBackground{
+	background-color: rgba(255,255,255,.6);
+}
 .noSpace {
 	font-size: 0;
-}
-.normalFont {
-	font-size: 14px;
 }
 .gridContainer {
 	position: relative;
 	width: 800px;
-	margin: 0 auto;
+	margin: 10% auto;
 }
 .gridCluster{
 	position: relative;
@@ -46,7 +54,7 @@
 	width: 100%;
 }
 .ratingPara{
-	font-size: 14px;
+	font-size: 18px;
 	position: absolute;
 	padding: 0;
 	margin: 0;
