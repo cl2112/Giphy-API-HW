@@ -26,9 +26,9 @@ function retrieveData(){
 		url: searchUrl + searchTerm + limit + key,
 		method: "GET"
 	}).done(function(response){
-		console.log(response);
+		//console.log(response);
 		returnedData = response;
-		console.log(returnedData);
+		//console.log(returnedData);
 		createGrid();
 	})
 }	
@@ -48,7 +48,7 @@ function createGrid(){
 }
 
 function fillGrid(){
-	console.log("filled Grid");
+	//console.log("filled Grid");
 	var cluster = 0;
 	var block = 0;
 	for (i=0;i<totalImagesReturned;i++){
@@ -56,7 +56,7 @@ function fillGrid(){
 				cluster++;
 				block = 0;
 				i--;
-				console.log("filled cluster");
+				//console.log("filled cluster");
 		} else {
 			if (attachedImages.indexOf(""+i)== -1){
 				//console.log(returnedData);
@@ -65,20 +65,20 @@ function fillGrid(){
 				var movingUrl = returnedData.data[i].images.original.url;
 				//console.log(movingUrl);
 				var rating = returnedData.data[i].rating;
-				console.log(rating);
+				//console.log(rating);
 				$(".gridContainer").children().eq(cluster).children().eq(block).empty();
 				$(".gridContainer").children().eq(cluster).children().eq(block).append("<img class='blockGif' data-imageNumber='"+i+"' data-still='"+stillUrl+"' data-moving='"+movingUrl+"' src='"+stillUrl+"'><p class='ratingPara'>"+rating+"</p>")
 				//console.log("index="+filledClusters.indexOf(""+cluster));
 				if (block == 3){
 					cluster++;
 					block = 0;
-					console.log("next cluster");
+					//console.log("next cluster");
 				} else {
 					block++;
-					console.log("next block");
+					//console.log("next block");
 				}
 			} else {
-				console.log("image Attached");
+				//console.log("image Attached");
 			}
 		}
 	}
@@ -91,17 +91,17 @@ function fillGrid(){
 
 $(document).on("click", ".gridBlock", function(){
 	var clusterNumber = $(this).parent().attr("data-cluster");
-	console.log(clusterNumber);
+	//console.log(clusterNumber);
 	filledClusters.push(clusterNumber);
-	console.log(filledClusters);
+	//console.log(filledClusters);
 	var imageNumber = $(this).children().eq(0).attr("data-imageNumber");
-	console.log(imageNumber);
+	//console.log(imageNumber);
 	attachedImages.push(imageNumber);
-	console.log(attachedImages);
+	//console.log(attachedImages);
 	var movingUrl = $(this).children().eq(0).attr("data-moving");
-	console.log(movingUrl);
+	//console.log(movingUrl);
 	injector.push({"cluster":clusterNumber, "image": imageNumber, "url":movingUrl});
-	console.log(injector);
+	//console.log(injector);
 	expandedImages++;
 	createGrid();
 })
@@ -138,6 +138,7 @@ function createButtons(){
 
 $(document).on("click", ".topicButton", function(){
 	searchTerm = $(this).attr("data-topic");
+	minimizeAllExpandedBlocks();
 	retrieveData();
 })
 
@@ -149,6 +150,37 @@ topics.push(typedInTopic);
 createButtons();
 $("#topicInput").val("");
  });
+
+
+function minimizeAllExpandedBlocks(){
+	injector = [];
+	attachedImages = [];
+	filledClusters = [];
+	expandedImages = 0;
+}
+
+function expandAllBlocks(){
+	minimizeAllExpandedBlocks();
+	for (var i = 0; i < totalImagesReturned; i++) {
+		var clusterNumber = i;
+		filledClusters.push(clusterNumber);
+		var imageNumber = i;
+		attachedImages.push(imageNumber);
+		var movingUrl = returnedData.data[i].images.original.url;
+		injector.push({"cluster":clusterNumber, "image": imageNumber, "url":movingUrl});
+	}
+	expandedImages = totalImagesReturned;
+	createGrid();
+}
+
+$("#expandAllBlocks").on("click", function(){
+	expandAllBlocks();
+})
+
+$("#minimizeAllBlocks").on("click", function(){
+	minimizeAllExpandedBlocks();
+	createGrid();
+})
 
 
 //end
