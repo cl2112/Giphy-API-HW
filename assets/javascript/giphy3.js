@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-var topics = ["megaman","castlevania","contra","strider"];
+var topics = ["megaman x","castlevania","super contra","strider hiryu","doctor strange","hulk","berserk","spider-man"];
 
 
 var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
