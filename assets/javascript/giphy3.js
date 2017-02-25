@@ -181,6 +181,7 @@ $(document).on("click", ".expandedGif", function(){
  var imageNumber = injector[injectorIndex].image;
  attachedImages.splice(attachedImages.indexOf(imageNumber),1);
  injector.splice(injectorIndex,1);
+ expandedImages--;
  createGrid();
  fillGrid();
 })
