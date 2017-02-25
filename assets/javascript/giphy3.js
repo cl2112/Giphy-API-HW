@@ -1,28 +1,75 @@
 $(document).ready(function(){
 
-var topics = ["megaman","castlevania","contra","strider"]
+var topics = ["megaman","castlevania","contra","strider"];
 
 
 var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
-var key = "&limit=40&api_key=dc6zaTOxFJmzC";
+var key = "&api_key=dc6zaTOxFJmzC";
+var limit = "&limit="+totalImagesReturned;
 var searchTerm = "random";
 
-var filled = []
+var returnedData;
+
+var expandedImages = 0;
+var totalImagesReturned = 40;
+var totalGridBlocks = totalImagesReturned + (expandedImages*3);
+var totalClusters;
+
+//createButtons();
+
+createGrid();
 
 
-
-createButtons();
-
-
-function searchedGif(){
+function retrieveData(){
 	$.ajax({
-		url: searchUrl + searchTerm + key,
+		url: searchUrl + searchTerm + limit + key,
 		method: "GET"
 	}).done(function(response){
-		//console.log(response);
-		//console.log(response.data[0].images.original.url);
-		var rowNumber = 0;
-		var colNumber = 0;
+		returnedData = response;
+	})
+}	
+
+function createGrid(){
+	if (totalGridBlocks%4 == 0){
+		totalClusters = totalGridBlocks/4;
+	} else {
+		totalClusters = (totalGridBlocks/4) + 1;
+	}
+	for (i=0;i<totalClusters;i++){
+		$(".gridContainer").append(
+			"<div class='gridCluster' data-cluster='"+i+"'><div class'gridBlock' data-block='0'></div><div class'gridBlock' data-block='1'></div><div class'gridBlock' data-block='2'></div><div class'gridBlock' data-block='3'></div></div>")
+	}
+}
+
+function fillGrid(){
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		for (i=0; i<response.data.length; i++) {
 			//console.log(filled.indexOf(""+rowNumber+colNumber))
@@ -50,8 +97,7 @@ function searchedGif(){
 				}
 			}
 		}
-	})
-}
+
 
 
 function createButtons(){
