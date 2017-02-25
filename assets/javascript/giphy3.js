@@ -2,25 +2,33 @@ $(document).ready(function(){
 
 var topics = ["megaman x","castlevania","super contra","strider hiryu","doctor strange","hulk","berserk","spider-man"];
 
-
-var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
-var key = "&api_key=dc6zaTOxFJmzC";
-var limit = "&limit=48";
-var searchTerm = "grim";
-
 var returnedData;
 
-var expandedImages = 0;
+//Variables for the grid creating and grid filling functions.
+//TotalImagesReturned can be changed to adjust the number of gifs returned from search up to 100.
 var totalImagesReturned = 48;
+
+var expandedImages = 0;
 var totalClusters;
 var filledClusters = [];
 var attachedImages = [];
 var injector = [];
-var buttonColors = ["btn-primary","btn-success","btn-warning","btn-danger"]
+
+
+//Used to change the colors of the buttons when creating them.
+var buttonColors = ["btn-primary","btn-success","btn-warning","btn-danger"];
+
+
+
+//query variables
+var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
+var key = "&api_key=dc6zaTOxFJmzC";
+var limit = "&limit="+totalImagesReturned;
+var searchTerm = "default";
 
 createButtons();
 
-
+//gets the data from the giphy servers and store the returned JSON object in returnedData.
 function retrieveData(){
 	$.ajax({
 		url: searchUrl + searchTerm + limit + key,
@@ -33,6 +41,8 @@ function retrieveData(){
 	})
 }	
 
+//checks how many clusters are needed to have a place for every image and then creates the clusters
+//then triggers the grid filling function
 function createGrid(){
 	var totalGridBlocks = totalImagesReturned + (expandedImages*3);
 	if (totalGridBlocks%4 == 0){
@@ -47,6 +57,12 @@ function createGrid(){
 	fillGrid();
 }
 
+//fills up all the grid blocks created in createGrid() by starting in the first cluster's first block then continuing until
+//there are no more blocks in the cluster then moves to the next cluster.
+//checks if the cluster is full and if it is, then it moves to the next cluster.
+//then it checks if the image is currenty attached to one of the filled clusters, if yes it skips the placement of that image,
+//if no, then it fills that block with an image tag and attaches data to it.
+//at the end, it goes back and fills every filled cluster with the image that is attached to it.
 function fillGrid(){
 	//console.log("filled Grid");
 	var cluster = 0;
@@ -88,7 +104,9 @@ function fillGrid(){
 	}
 }
 
-
+//when the user clicks on an image, add the values of it's location to appropriate arrays and creates an object to be used
+//to fill in the cluster during fillGrid().
+//then adds 1 to the total number of expanded images and calls the createGrid() function. 
 $(document).on("click", ".gridBlock", function(){
 	var clusterNumber = $(this).parent().attr("data-cluster");
 	//console.log(clusterNumber);
@@ -105,7 +123,8 @@ $(document).on("click", ".gridBlock", function(){
 	expandedImages++;
 	createGrid();
 })
-
+//when the user clicks on an expanded image, remove the location data from their respective arrays, and remove the injector
+//object tied to the image. Then reduce the number of expanded images by one and call the createGrid() function.
 $(document).on("click", ".expandedGif", function(){
  var injectorIndex = $(this).attr("data-injectorIndex");
  var clusterNumber = injector[injectorIndex].cluster;
@@ -117,12 +136,7 @@ $(document).on("click", ".expandedGif", function(){
  createGrid();
 })
 
-
-$(document).on("click",".btn",function(){
-	var topic = $(this).attr("data-topic");
-
-})
-
+//for each topic in the topics array, append a button to .buttonContainer, alternating through the buttonColors array.
 function createButtons(){
 	$(".buttonContainer").empty();
 	var colorRotation = 0;
@@ -136,13 +150,16 @@ function createButtons(){
 	}
 }
 
+//when the user clicks on a topic button, take that topic and make it the new search term, then reset all attached images
+//and filled clusters and injector data and start a search with the new search term.
 $(document).on("click", ".topicButton", function(){
 	searchTerm = $(this).attr("data-topic");
 	minimizeAllExpandedBlocks();
 	retrieveData();
 })
 
-
+//when the user clicks on the add topic button or presses enter, take the value of the text input and add it to the array
+//of topics, then create buttons from the new topics array.
 $("#addTopic").on("click", function(event) {
 event.preventDefault();
 var typedInTopic = $("#topicInput").val();
