@@ -15,6 +15,9 @@ var totalImagesReturned = 40;
 var totalClusters;
 var filledClusters = [];
 var attachedImages = [];
+var injector = [];
+
+
 
 //createButtons();
 //retrieveData();
@@ -42,11 +45,13 @@ function createGrid(){
 	}
 	$(".gridContainer").empty();
 	for (i=0;i<totalClusters;i++){
-		$(".gridContainer").append(
-			"<div class='gridCluster' data-cluster='"+i+"'><div class='gridBlock block0' data-block='0'></div><div class='gridBlock block1' data-block='1'></div><div class='gridBlock block2' data-block='2'></div><div class='gridBlock block3' data-block='3'></div></div>")
+		$(".gridContainer").append("<div class='gridCluster' data-cluster='"+i+"'><div class='gridBlock block0' data-block='0'></div><div class='gridBlock block1' data-block='1'></div><div class='gridBlock block2' data-block='2'></div><div class='gridBlock block3' data-block='3'></div></div>");
 	}
 }
 
+
+
+/*
 function fillGrid(){
 	console.log("filled grid")
 	var cluster = 0;
@@ -78,11 +83,60 @@ function fillGrid(){
 			}
 		} else {
 			console.log("image attached");
-			console.log("array display===="+attachedImages[""+i][0]);
-
+			$(".gridContainer").children().eq(cluster).append($("<img>").addClass("expandedGif").attr("src",returnedData.data[i].images.original.url));
+			cluster++;
 		}
 	}
 }
+*/
+
+
+function fillGrid(){
+	console.log("filled Grid");
+	var cluster = 0;
+	var block = 0;
+	for (i=0;i<totalImagesReturned;i++){
+		if (filledClusters.indexOf(""+cluster)!=-1){
+				cluster++;
+				block = 0;
+				i--;
+				console.log("filled cluster");
+		} else {
+			if (attachedImages.indexOf(""+i)== -1){
+				//console.log(returnedData);
+				var stillUrl = returnedData.data[i].images.original_still.url;
+				//console.log(stillUrl);
+				var movingUrl = returnedData.data[i].images.original.url;
+				//console.log(movingUrl);
+				$(".gridContainer").children().eq(cluster).children().eq(block).empty();
+				$(".gridContainer").children().eq(cluster).children().eq(block).append("<img class='blockGif' data-imageNumber='"+i+"' data-still='"+stillUrl+"' data-moving='"+movingUrl+"' src='"+stillUrl+"'>")
+				//console.log("index="+filledClusters.indexOf(""+cluster));
+				if (block == 3){
+					cluster++;
+					block = 0;
+					console.log("next cluster");
+				} else {
+					block++;
+					console.log("next block");
+				}
+			} else {
+				console.log("image Attached");
+				//$(".gridContainer").children().eq(cluster-1).append($("<img>").addClass("expandedGif").attr("src",returnedData.data[i].images.original.url));
+				//	cluster++;
+			}
+		}
+	}
+	for (var i = 0; i < injector.length; i++) {
+		var imageDiv = $("<img>").addClass("expandedGif").attr("src",injector[i].url);
+		$(".gridContainer").children().eq(injector[i].cluster).append(imageDiv);
+	}
+}
+
+
+
+
+
+
 
 
 
@@ -113,7 +167,8 @@ $(document).on("click", ".gridBlock", function(){
 	console.log(attachedImages);
 	var movingUrl = $(this).children().eq(0).attr("data-moving");
 	console.log(movingUrl);
-	$(this).parent().append("<img class='expandedGif' src='"+movingUrl+"'")
+	injector.push({"cluster":clusterNumber, "image": imageNumber, "url":movingUrl});
+	console.log(injector);
 	expandedImages++;
 	createGrid();
 	fillGrid();
