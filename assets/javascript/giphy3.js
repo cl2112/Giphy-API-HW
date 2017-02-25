@@ -43,7 +43,7 @@ function createGrid(){
 	$(".gridContainer").empty();
 	for (i=0;i<totalClusters;i++){
 		$(".gridContainer").append(
-			"<div class='gridCluster' data-cluster='"+i+"'><div class='gridBlock' data-block='0'></div><div class='gridBlock' data-block='1'></div><div class='gridBlock' data-block='2'></div><div class='gridBlock' data-block='3'></div></div>")
+			"<div class='gridCluster' data-cluster='"+i+"'><div class='gridBlock block0' data-block='0'></div><div class='gridBlock block1' data-block='1'></div><div class='gridBlock block2' data-block='2'></div><div class='gridBlock block3' data-block='3'></div></div>")
 	}
 }
 
@@ -78,6 +78,8 @@ function fillGrid(){
 			}
 		} else {
 			console.log("image attached");
+			console.log("array display===="+attachedImages[""+i][0]);
+
 		}
 	}
 }
@@ -109,6 +111,9 @@ $(document).on("click", ".gridBlock", function(){
 	console.log(imageNumber);
 	attachedImages.push(imageNumber);
 	console.log(attachedImages);
+	var movingUrl = $(this).children().eq(0).attr("data-moving");
+	console.log(movingUrl);
+	$(this).parent().append("<img class='expandedGif' src='"+movingUrl+"'")
 	expandedImages++;
 	createGrid();
 	fillGrid();
