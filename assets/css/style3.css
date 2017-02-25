@@ -9,6 +9,7 @@ body {
 .greyBackground{
 	background-color: rgba(255,255,255,.6);
 }
+/* used to remove white space between the gridBlocks*/
 .noSpace {
 	font-size: 0;
 }

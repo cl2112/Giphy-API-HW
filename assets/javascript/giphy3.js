@@ -168,7 +168,7 @@ createButtons();
 $("#topicInput").val("");
  });
 
-
+//resets all location and injection data.
 function minimizeAllExpandedBlocks(){
 	injector = [];
 	attachedImages = [];
@@ -176,6 +176,8 @@ function minimizeAllExpandedBlocks(){
 	expandedImages = 0;
 }
 
+//attaches every image returned from the query to its own cluster and adds the location and injection data to the related
+//arrays, then sets the expanded images number to the total number of images returned and creates a new grid.
 function expandAllBlocks(){
 	minimizeAllExpandedBlocks();
 	for (var i = 0; i < totalImagesReturned; i++) {
@@ -189,11 +191,12 @@ function expandAllBlocks(){
 	expandedImages = totalImagesReturned;
 	createGrid();
 }
-
+//event listener for the expandAllBlocks button, which then calls the expandAllBlocks function
 $("#expandAllBlocks").on("click", function(){
 	expandAllBlocks();
 })
 
+//event listener for the minimizeAllBlocks button, which then calls the minimizeAllExpandedBlocks function
 $("#minimizeAllBlocks").on("click", function(){
 	minimizeAllExpandedBlocks();
 	createGrid();
