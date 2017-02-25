@@ -1,0 +1,68 @@
+.gifContainer {
+	display: inline-block;
+	float: left;
+	padding: 1%;
+	box-shadow: 2px 2px 2px 2px;
+	height: 92px;
+	width: 92px;
+	margin: 8px;
+	vertical-align: text-top;
+}
+
+
+.displayedGif {
+	height: 70%;
+	width: 100%;
+}
+
+.gifContainerGrid {
+	position: relative;
+	height: 100px;
+	width: 100%;
+}
+.displayedGifGrid{
+	height: 100%;
+	width: 100%;
+}
+.noPadding {
+	padding: 0;
+}
+
+.gridBlock{
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	border: 1px red;
+	position: relative;
+	vertical-align: top;
+}
+
+.gridContainer {
+	width: 1000px;
+	height: 500px;
+	padding: 0;
+	margin: 0 auto;
+	position: relative;
+
+}
+
+.gridBlockGif {
+	height: 100%;
+	width: 100%;
+}
+.noSpace {
+	font-size: 0;
+}
+
+.normalFont {
+	font-size: 14px;
+}
+
+.gridBlock p {
+	position: absolute;
+	bottom: 0%;
+	left: 0%;
+	background-color: white;
+	margin: 0;
+	padding: 1px;
+}
