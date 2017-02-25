@@ -8,6 +8,7 @@
 	position: relative;
 	width: 800px;
 	margin: 0 auto;
+	text-align: center;
 }
 .gridCluster{
 	position: relative;
@@ -20,6 +21,7 @@
 	height: 100px;
 	width: 100px;
 	display: inline-block;
+	vertical-align: top;
 }
 .blockGif{
 	height: 100%;

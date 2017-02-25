@@ -12,8 +12,9 @@ var returnedData;
 
 var expandedImages = 0;
 var totalImagesReturned = 40;
-var totalGridBlocks = totalImagesReturned + (expandedImages*3);
 var totalClusters;
+var filledClusters = [];
+var attachedImages = [];
 
 //createButtons();
 //retrieveData();
@@ -33,11 +34,13 @@ function retrieveData(){
 }	
 
 function createGrid(){
+	var totalGridBlocks = totalImagesReturned + (expandedImages*3);
 	if (totalGridBlocks%4 == 0){
 		totalClusters = totalGridBlocks/4;
 	} else {
 		totalClusters = (totalGridBlocks/4) + 1;
 	}
+	$(".gridContainer").empty();
 	for (i=0;i<totalClusters;i++){
 		$(".gridContainer").append(
 			"<div class='gridCluster' data-cluster='"+i+"'><div class='gridBlock' data-block='0'></div><div class='gridBlock' data-block='1'></div><div class='gridBlock' data-block='2'></div><div class='gridBlock' data-block='3'></div></div>")
@@ -45,22 +48,36 @@ function createGrid(){
 }
 
 function fillGrid(){
+	console.log("filled grid")
 	var cluster = 0;
 	var block = 0;
 	for (i=0;i<totalImagesReturned;i++){
-		//console.log(returnedData);
-		var stillUrl = returnedData.data[i].images.original_still.url;
-		//console.log(stillUrl);
-		var movingUrl = returnedData.data[i].images.original.url;
-		//console.log(movingUrl);
-		$(".gridContainer").children().eq(cluster).children().eq(block).append("<img class='blockGif' data-still='"+stillUrl+"' data-moving='"+movingUrl+"' src='"+stillUrl+"'>")
-		if (block == 3){
-			cluster++;
-			block = 0;
-			//console.log("next cluster");
+		if (attachedImages.indexOf(""+i)== -1){
+			if (filledClusters.indexOf(""+cluster)!=-1){
+				cluster++;
+				block = 0;
+				i--;
+				console.log("filled cluster");
+			} else {
+				//console.log(returnedData);
+				var stillUrl = returnedData.data[i].images.original_still.url;
+				//console.log(stillUrl);
+				var movingUrl = returnedData.data[i].images.original.url;
+				//console.log(movingUrl);
+				$(".gridContainer").children().eq(cluster).children().eq(block).empty();
+				$(".gridContainer").children().eq(cluster).children().eq(block).append("<img class='blockGif' data-imageNumber='"+i+"' data-still='"+stillUrl+"' data-moving='"+movingUrl+"' src='"+stillUrl+"'>")
+				//console.log("index="+filledClusters.indexOf(""+cluster));
+				if (block == 3){
+					cluster++;
+					block = 0;
+					console.log("next cluster");
+				} else {
+					block++;
+					console.log("next block");
+				}
+			}
 		} else {
-			block++;
-			//console.log("next block");
+			console.log("image attached");
 		}
 	}
 }
@@ -83,6 +100,19 @@ $("#data").on("click", function(){
 
 
 
+$(document).on("click", ".gridBlock", function(){
+	var clusterNumber = $(this).parent().attr("data-cluster");
+	console.log(clusterNumber);
+	filledClusters.push(clusterNumber);
+	console.log(filledClusters);
+	var imageNumber = $(this).children().eq(0).attr("data-imageNumber");
+	console.log(imageNumber);
+	attachedImages.push(imageNumber);
+	console.log(attachedImages);
+	expandedImages++;
+	createGrid();
+	fillGrid();
+})
 
 
 
