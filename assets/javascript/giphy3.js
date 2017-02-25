@@ -127,7 +127,7 @@ function fillGrid(){
 		}
 	}
 	for (var i = 0; i < injector.length; i++) {
-		var imageDiv = $("<img>").addClass("expandedGif").attr("src",injector[i].url);
+		var imageDiv = $("<img>").addClass("expandedGif").attr("src",injector[i].url).attr("data-injectorIndex",i);
 		$(".gridContainer").children().eq(injector[i].cluster).append(imageDiv);
 	}
 }
@@ -174,7 +174,16 @@ $(document).on("click", ".gridBlock", function(){
 	fillGrid();
 })
 
-
+$(document).on("click", ".expandedGif", function(){
+ var injectorIndex = $(this).attr("data-injectorIndex");
+ var clusterNumber = injector[injectorIndex].cluster;
+ filledClusters.splice(filledClusters.indexOf(clusterNumber),1);
+ var imageNumber = injector[injectorIndex].image;
+ attachedImages.splice(attachedImages.indexOf(imageNumber),1);
+ injector.splice(injectorIndex,1);
+ createGrid();
+ fillGrid();
+})
 
 
 
