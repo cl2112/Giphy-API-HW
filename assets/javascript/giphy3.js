@@ -6,7 +6,7 @@ var topics = ["megaman","castlevania","contra","strider"];
 var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
 var key = "&api_key=dc6zaTOxFJmzC";
 var limit = "&limit=40";
-var searchTerm = "random";
+var searchTerm = "grim";
 
 var returnedData;
 
@@ -48,17 +48,19 @@ function fillGrid(){
 	var cluster = 0;
 	var block = 0;
 	for (i=0;i<totalImagesReturned;i++){
-		console.log(returnedData);
+		//console.log(returnedData);
 		var stillUrl = returnedData.data[i].images.original_still.url;
-		console.log(stillUrl);
+		//console.log(stillUrl);
 		var movingUrl = returnedData.data[i].images.original.url;
-		console.log(movingUrl);
+		//console.log(movingUrl);
 		$(".gridContainer").children().eq(cluster).children().eq(block).append("<img class='blockGif' data-still='"+stillUrl+"' data-moving='"+movingUrl+"' src='"+stillUrl+"'>")
-		if (block == 4){
+		if (block == 3){
 			cluster++;
 			block = 0;
+			//console.log("next cluster");
 		} else {
 			block++;
+			//console.log("next block");
 		}
 	}
 }
