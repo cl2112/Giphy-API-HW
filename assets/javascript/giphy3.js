@@ -5,7 +5,7 @@ var topics = ["megaman","castlevania","contra","strider"];
 
 var searchUrl = "http://api.giphy.com/v1/gifs/search?q=";
 var key = "&api_key=dc6zaTOxFJmzC";
-var limit = "&limit="+totalImagesReturned;
+var limit = "&limit=40";
 var searchTerm = "random";
 
 var returnedData;
@@ -16,8 +16,9 @@ var totalGridBlocks = totalImagesReturned + (expandedImages*3);
 var totalClusters;
 
 //createButtons();
-
-createGrid();
+//retrieveData();
+//createGrid();
+//fillGrid();
 
 
 function retrieveData(){
@@ -25,7 +26,9 @@ function retrieveData(){
 		url: searchUrl + searchTerm + limit + key,
 		method: "GET"
 	}).done(function(response){
+		console.log(response);
 		returnedData = response;
+		console.log(returnedData);
 	})
 }	
 
@@ -37,18 +40,44 @@ function createGrid(){
 	}
 	for (i=0;i<totalClusters;i++){
 		$(".gridContainer").append(
-			"<div class='gridCluster' data-cluster='"+i+"'><div class'gridBlock' data-block='0'></div><div class'gridBlock' data-block='1'></div><div class'gridBlock' data-block='2'></div><div class'gridBlock' data-block='3'></div></div>")
+			"<div class='gridCluster' data-cluster='"+i+"'><div class='gridBlock' data-block='0'></div><div class='gridBlock' data-block='1'></div><div class='gridBlock' data-block='2'></div><div class='gridBlock' data-block='3'></div></div>")
 	}
 }
 
 function fillGrid(){
-	
+	var cluster = 0;
+	var block = 0;
+	for (i=0;i<totalImagesReturned;i++){
+		console.log(returnedData);
+		var stillUrl = returnedData.data[i].images.original_still.url;
+		console.log(stillUrl);
+		var movingUrl = returnedData.data[i].images.original.url;
+		console.log(movingUrl);
+		$(".gridContainer").children().eq(cluster).children().eq(block).append("<img class='blockGif' data-still='"+stillUrl+"' data-moving='"+movingUrl+"' src='"+stillUrl+"'>")
+		if (block == 4){
+			cluster++;
+			block = 0;
+		} else {
+			block++;
+		}
+	}
 }
 
 
 
 
 
+$("#fill").on("click", function(){
+	fillGrid();
+})
+
+
+$("#grid").on("click", function(){
+	createGrid();
+})
+$("#data").on("click", function(){
+	retrieveData();
+})
 
 
 
@@ -64,12 +93,7 @@ function fillGrid(){
 
 
 
-
-
-
-
-
-
+/*
 
 		for (i=0; i<response.data.length; i++) {
 			//console.log(filled.indexOf(""+rowNumber+colNumber))
@@ -197,6 +221,6 @@ $(document).on("mouseleave", ".gifContainer", function(){
 	$(this).css("box-shadow","2px 2px 2px 2px");
 
 })
-
+*/
 
 })

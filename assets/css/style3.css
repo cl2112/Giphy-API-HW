@@ -6,14 +6,22 @@
 }
 .gridContainer {
 	position: relative;
-	width: 1200px;
+	width: 800px;
+	margin: 0 auto;
 }
 .gridCluster{
-
+	position: relative;
+	height: 200px;
+	width: 200px;
+	display: inline-block;
 }
 .gridBlock{
-
+	position: relative;
+	height: 100px;
+	width: 100px;
+	display: inline-block;
 }
 .blockGif{
-
+	height: 100%;
+	width: 100%;
 }
